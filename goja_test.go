@@ -1,7 +1,6 @@
 package benchmark
 
 import (
-	"context"
 	"testing"
 )
 
@@ -51,7 +50,7 @@ func BenchmarkGojaMatch(b *testing.B) {
 	if err != nil {
 		b.Fatalf("NewGoja failed: %v", err)
 	}
-	benchmarkMatch(b, vm)
+	BenchmarkMatch(b, vm)
 }
 
 func BenchmarkGojaFib(b *testing.B) {
@@ -59,34 +58,5 @@ func BenchmarkGojaFib(b *testing.B) {
 	if err != nil {
 		b.Fatalf("NewGoja failed: %v", err)
 	}
-	benchmarkFib(b, vm)
-}
-
-func benchmarkMatch(b *testing.B, vm VM) {
-	var (
-		ctx = context.Background()
-		obj = struct {
-			Name   string  `json:"name"`
-			Age    int     `json:"age"`
-			Gender string  `json:"gender"`
-			Height float64 `json:"height"`
-			Grade  string  `json:"grade"`
-		}{
-			Name:   "Tim",
-			Age:    27,
-			Gender: "male",
-			Height: 180.5,
-			Grade:  "math=A&physics=S&english=B&history=C",
-		}
-	)
-	for n := 0; n < b.N; n++ {
-		_ = vm.Match(ctx, obj)
-	}
-}
-
-func benchmarkFib(b *testing.B, vm VM) {
-	var ctx = context.Background()
-	for n := 0; n < b.N; n++ {
-		_ = vm.Fib(ctx, 35)
-	}
+	BenchmarkFib(b, vm)
 }
