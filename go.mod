@@ -5,6 +5,7 @@ go 1.18
 require github.com/dop251/goja v0.0.0-20220424120009-160b8c59fd75
 
 require (
+	github.com/d5/tengo/v2 v2.10.1 // indirect
 	github.com/dlclark/regexp2 v1.4.1-0.20201116162257-a2a8dda75c91 // indirect
 	github.com/go-python/gpython v0.1.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
