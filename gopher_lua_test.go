@@ -32,12 +32,21 @@ end
 
 function fib(n)
     local a, b = 0, 1
-    for i = 1, n do
+    for i = 1, n-1 do
         a, b = b, a + b
     end
     return a
 end
 `
+
+func TestGopherLua(t *testing.T) {
+	vm, err := NewGopherLua(gopherLuaScript)
+	if err != nil {
+		t.Fatalf("NewGopherLua failed: %v", err)
+	}
+	TestMatch(t, vm)
+	TestFib(t, vm)
+}
 
 func BenchmarkGopherLuaMatch(b *testing.B) {
 	vm, err := NewGopherLua(gopherLuaScript)

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/url"
-	"reflect"
 
 	lua "github.com/yuin/gopher-lua"
 )
@@ -75,13 +74,12 @@ func gopherLuaParseQuery(L *lua.LState) int {
 
 func objToLTable(L *lua.LState, obj interface{}) *lua.LTable {
 	var (
-		v     = reflect.ValueOf(obj)
-		t     = v.Type()
 		table = L.NewTable()
+		m, _  = obj.(map[string]interface{})
 	)
-	for i := 0; i < v.NumField(); i++ {
-		k := t.Field(i).Tag.Get("json")
-		switch value := v.Field(i).Interface().(type) {
+
+	for k, v := range m {
+		switch value := v.(type) {
 		case int:
 			table.RawSetString(k, lua.LNumber(value))
 		case float64:

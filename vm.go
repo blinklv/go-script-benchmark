@@ -15,21 +15,38 @@ type VM interface {
 	Fib(ctx context.Context, n int) int
 }
 
+// TestMatch test VM.Match method.
+func TestMatch(t *testing.T, vm VM) {
+	ctx := context.Background()
+	obj := map[string]interface{}{
+		"name":   "Tim",
+		"age":    27,
+		"gender": "male",
+		"height": 180.5,
+		"grade":  "math=A&physics=S&english=B&history=C",
+	}
+	if !vm.Match(ctx, obj) {
+		t.Fatalf("vm.Match should should be true")
+	}
+}
+
+// TestMatch test VM.Fib method.
+func TestFib(t *testing.T, vm VM) {
+	ctx := context.Background()
+	if n := vm.Fib(ctx, 35); n != 5702887 {
+		t.Fatalf("vm.Fib(35) = %d is not equal to 5702887", n)
+	}
+}
+
 // BenchmarkMatch benchmark VM.Match method.
 func BenchmarkMatch(b *testing.B, vm VM) {
 	ctx := context.Background()
-	obj := struct {
-		Name   string  `json:"name"`
-		Age    int     `json:"age"`
-		Gender string  `json:"gender"`
-		Height float64 `json:"height"`
-		Grade  string  `json:"grade"`
-	}{
-		Name:   "Tim",
-		Age:    27,
-		Gender: "male",
-		Height: 180.5,
-		Grade:  "math=A&physics=S&english=B&history=C",
+	obj := map[string]interface{}{
+		"name":   "Tim",
+		"age":    27,
+		"gender": "male",
+		"height": 180.5,
+		"grade":  "math=A&physics=S&english=B&history=C",
 	}
 
 	for n := 0; n < b.N; n++ {

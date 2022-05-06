@@ -26,6 +26,15 @@ def fib(n):
 	return a
 `
 
+func TestGoPython(t *testing.T) {
+	vm, err := NewGoPython(gopythonScript)
+	if err != nil {
+		t.Fatalf("NewGoPython failed: %v", err)
+	}
+	TestMatch(t, vm)
+	TestFib(t, vm)
+}
+
 func BenchmarkGoPythonMatch(b *testing.B) {
 	vm, err := NewGoPython(gopythonScript)
 	if err != nil {

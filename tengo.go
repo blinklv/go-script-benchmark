@@ -21,6 +21,7 @@ func NewTengo(matchSrc, fibSrc string) (*Tengo, error) {
 
 	matchScript := tengo.NewScript([]byte(matchSrc))
 	matchScript.SetImports(libs)
+	_ = matchScript.Add("obj", nil)
 	matchCompiled, err := matchScript.Compile()
 	if err != nil {
 		return nil, err
@@ -28,6 +29,7 @@ func NewTengo(matchSrc, fibSrc string) (*Tengo, error) {
 
 	fibScript := tengo.NewScript([]byte(fibSrc))
 	fibScript.SetImports(libs)
+	_ = fibScript.Add("n", 0)
 	fibCompiled, err := fibScript.Compile()
 	if err != nil {
 		return nil, err

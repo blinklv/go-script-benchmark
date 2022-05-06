@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/url"
-	"reflect"
 	"runtime"
 
 	_ "github.com/go-python/gpython/modules"
@@ -93,14 +92,12 @@ func gopythonParseQuery(_ py.Object, args py.Tuple) (py.Object, error) {
 
 func objToPyDict(obj interface{}) py.StringDict {
 	var (
-		v    = reflect.ValueOf(obj)
-		t    = v.Type()
 		dict = py.NewStringDict()
+		m, _ = obj.(map[string]interface{})
 	)
 
-	for i := 0; i < v.NumField(); i++ {
-		k := t.Field(i).Tag.Get("json")
-		switch value := v.Field(i).Interface().(type) {
+	for k, v := range m {
+		switch value := v.(type) {
 		case int:
 			dict[k] = py.Int(int64(value))
 		case float64:

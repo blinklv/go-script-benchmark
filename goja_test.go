@@ -31,19 +31,27 @@ function match(obj) {
 }
 
 function fib(n) {
-	var a = 1, b = 0, temp;
+	let a = 0, b= 1;
 
-	while (n >= 0){
-		temp = a;
-		a = a + b;
-		b = temp;
-		n--;
+	for (let i = 1; i < n; ++i) {
+		let t = a + b;
+		a = b;
+		b = t;
 	}
 
-	return b;
+	return a;
 }
 
 `
+
+func TestGoja(t *testing.T) {
+	vm, err := NewGoja(gojaScript)
+	if err != nil {
+		t.Fatalf("NewGoja failed: %v", err)
+	}
+	TestMatch(t, vm)
+	TestFib(t, vm)
+}
 
 func BenchmarkGojaMatch(b *testing.B) {
 	vm, err := NewGoja(gojaScript)
